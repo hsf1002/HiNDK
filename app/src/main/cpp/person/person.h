@@ -5,4 +5,13 @@
 #ifndef HINDK_PERSON_H
 #define HINDK_PERSON_H
 
+#include <string>
+
+class  person
+{
+public:
+    std::string getString();
+
+};
+
 #endif //HINDK_PERSON_H
