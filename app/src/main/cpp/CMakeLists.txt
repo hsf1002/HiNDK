@@ -20,21 +20,24 @@ message(${CMAKE_CURRENT_LIST_DIR})
 
 # 将相对路径下的native-lib.cpp生成native-lib.so的共享库
 add_library( # Sets the name of the library.
-             native-lib
+             person-lib
 
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             native-lib.cpp )
+        person/person-lib.cpp
+        person/person.cpp)
 
 add_library(
-        person-lib
+        teacher-lib
         SHARED
-        person/person.cpp)
+        teacher/teacher-lib.cpp
+        teacher/teacher.cpp)
 
 # 将person路径纳入搜索
 include_directories(person/)
+include_directories(teacher/)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -56,8 +59,8 @@ find_library( # Sets the name of the path variable.
 
 # 指定相关联的库，如native-lib和person-lib都需要关联log-lib
 target_link_libraries( # Specifies the target library.
-                       native-lib
                        person-lib
+                       teacher-lib
 
                        # Links the target library to the log library
                        # included in the NDK.
