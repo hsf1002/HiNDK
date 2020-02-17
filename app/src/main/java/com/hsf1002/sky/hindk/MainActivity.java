@@ -3,7 +3,10 @@ package com.hsf1002.sky.hindk;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+
+import com.hsf1002.sky.hindk.load.JNIDynamicload;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,8 +21,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
-        TextView tv = findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        final JNIDynamicload jniDynamicload = new JNIDynamicload();
+
+        final TextView tv = findViewById(R.id.sample_text);
+        tv.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                tv.setText(stringFromJNI());
+            }
+        });
+
     }
 
     /**

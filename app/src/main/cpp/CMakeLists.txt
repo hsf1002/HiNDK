@@ -28,6 +28,7 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              native-lib.cpp )
 
+# 定义一个动态库
 add_library(
         person-lib
         SHARED
@@ -35,6 +36,17 @@ add_library(
 
 # 将person路径纳入搜索
 include_directories(person/)
+
+
+# 定义一个动态库
+add_library(
+        dynamic-lib
+        SHARED
+        jni/jni_dynamic_load.cpp
+)
+
+include_directories(${CMAKE_SOURCE_DIR}/base/)
+
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
