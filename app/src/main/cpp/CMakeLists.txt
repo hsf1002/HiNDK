@@ -35,6 +35,11 @@ add_library(
         teacher/teacher-lib.cpp
         teacher/teacher.cpp)
 
+add_library(
+        hello-lib
+        SHARED
+        hello/hello-lib.cpp)
+
 # 将person路径纳入搜索
 include_directories(person/)
 include_directories(teacher/)
@@ -61,6 +66,7 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
                        person-lib
                        teacher-lib
+                       hello-lib
 
                        # Links the target library to the log library
                        # included in the NDK.

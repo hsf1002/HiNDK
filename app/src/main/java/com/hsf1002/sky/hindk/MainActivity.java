@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
 
@@ -22,7 +23,12 @@ public class MainActivity extends AppCompatActivity {
         Person p = new Person();
         Teacher t = new Teacher();
         //tv.setText(p.stringFromJNI());
-        tv.setText(t.stringFromJNI());
+        //tv.setText(t.stringFromJNI());
+
+        Hello h = new Hello();
+        StringBuilder sb = new StringBuilder();
+        sb.append(h.stringFromJNI()).append(h.intFromJNI(1024, 1024));
+        tv.setText(sb.toString());
     }
 
 }
