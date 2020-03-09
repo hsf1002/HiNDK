@@ -40,6 +40,11 @@ add_library(
         SHARED
         hello/hello-lib.cpp)
 
+add_library(
+        skyqueue-lib
+        SHARED
+        queue/skyqueue.cpp)
+
 # 将person路径纳入搜索
 include_directories(person/)
 include_directories(teacher/)
@@ -67,6 +72,7 @@ target_link_libraries( # Specifies the target library.
                        person-lib
                        teacher-lib
                        hello-lib
+                       skyqueue-lib
 
                        # Links the target library to the log library
                        # included in the NDK.

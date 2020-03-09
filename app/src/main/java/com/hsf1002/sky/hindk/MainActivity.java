@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
+import com.hsf1002.sky.Auxinout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +29,15 @@ public class MainActivity extends AppCompatActivity {
         Hello h = new Hello();
         StringBuilder sb = new StringBuilder();
         sb.append(h.stringFromJNI()).append(h.intFromJNI(1024, 1024));
+
+        Auxinout aux = new Auxinout();
+        aux.QueueInit();
+        aux.QueuePreset();
+        aux.QueuePrint();
+        sb.append(aux.QueueDequeue());
+
         tv.setText(sb.toString());
+
     }
 
 }
