@@ -50,6 +50,11 @@ add_library(
         SHARED
         jni/dynamic-lib.cpp)
 
+add_library(
+        native-lib
+        SHARED
+        jni/basic_type.cpp)
+
 # 将person路径纳入搜索
 include_directories(person/)
 include_directories(teacher/)
