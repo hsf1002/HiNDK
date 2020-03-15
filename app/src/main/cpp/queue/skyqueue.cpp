@@ -136,7 +136,7 @@ JNIEXPORT void JNICALL Java_com_hsf1002_sky_Auxinout_QueuePrint(JNIEnv* env, job
     //printf("queue data below.....................\n");
     //LOGD("queue data: count = %d ", q.count);
     //LOGD("print queue\n");
-    __android_log_print(ANDROID_LOG_DEBUG, "sky", "print queue\n");
+    //__android_log_print(ANDROID_LOG_DEBUG, "sky", "print queue\n");
 
     if (!Java_com_hsf1002_sky_Auxinout_QueueEmpty(env, ob))
     {

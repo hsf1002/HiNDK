@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.hsf1002.sky.jni.DynamicLoad;
 import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
-import com.hsf1002.sky.Auxinout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,14 +30,17 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
         sb.append(h.stringFromJNI()).append(h.intFromJNI(1024, 1024));
 
-        Auxinout aux = new Auxinout();
-        aux.QueueInit();
-        aux.QueuePreset();
-        aux.QueuePrint();
-        sb.append(aux.QueueDequeue());
+//        Auxinout aux = new Auxinout();
+//        aux.QueueInit();
+//        aux.QueuePreset();
+//        aux.QueuePrint();
+//        sb.append(aux.QueueDequeue());
 
         tv.setText(sb.toString());
 
+        TextView tv2 = findViewById(R.id.sample_text_2);
+        DynamicLoad dynamicLoad = new DynamicLoad();
+        tv2.setText(dynamicLoad.getNativeString() + " " + dynamicLoad.sum(1024, 1024));
     }
 
 }

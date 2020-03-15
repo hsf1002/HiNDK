@@ -45,9 +45,16 @@ add_library(
         SHARED
         queue/skyqueue.cpp)
 
+add_library(
+        dynamic-lib
+        SHARED
+        jni/dynamic-lib.cpp)
+
 # 将person路径纳入搜索
 include_directories(person/)
 include_directories(teacher/)
+include_directories(base/)
+include_directories(jni/)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -73,6 +80,7 @@ target_link_libraries( # Specifies the target library.
                        teacher-lib
                        hello-lib
                        skyqueue-lib
+                       dynamic-lib
 
                        # Links the target library to the log library
                        # included in the NDK.
