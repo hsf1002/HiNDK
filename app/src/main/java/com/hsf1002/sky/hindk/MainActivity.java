@@ -3,6 +3,7 @@ package com.hsf1002.sky.hindk;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.hsf1002.sky.jni.BasicType;
@@ -12,7 +13,7 @@ import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
 
 public class MainActivity extends AppCompatActivity {
-
+private static final String TAG = "skyMainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         DynamicLoad dynamicLoad = new DynamicLoad();
         tv2.setText(dynamicLoad.getNativeString() + " " + dynamicLoad.sum(1024, 1024));
 
-        TextView tv3 = findViewById(R.id.sample_text_3);
         BasicType basicType = new BasicType();
         byte b = 2;
         short sh = 10;
-        tv3.setText("int+1: " + basicType.callNativeInt(1) + ", byte+1: " + basicType.callNativeByte(b) +
+        // int+1: 2, byte+1: 3, short+1: 11, long+1: 21, char+1: B, float+1: 101.0, double+1: 201.0, !bool: true
+        Log.d(TAG, "int+1: " + basicType.callNativeInt(1) + ", byte+1: " + basicType.callNativeByte(b) +
                     ", short+1: " + basicType.callNativeShort(sh) + ", long+1: " + basicType.callNativeLong(20) +
                     ", char+1: " + basicType.callNativeChar('A') + ", float+1: " + basicType.callNativeFloat(100) +
-                    ", double+1: " + basicType.callNativeDouble(200));
+                    ", double+1: " + basicType.callNativeDouble(200) + ", !bool: " + basicType.callNativeBool(false));
     }
 
 }

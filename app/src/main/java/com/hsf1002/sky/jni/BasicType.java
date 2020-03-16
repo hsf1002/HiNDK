@@ -13,4 +13,5 @@ public class BasicType {
     public native long callNativeLong(long l);
     public native float callNativeFloat(float f);
     public native double callNativeDouble(double d);
+    public native boolean callNativeBool(boolean d);
 }
