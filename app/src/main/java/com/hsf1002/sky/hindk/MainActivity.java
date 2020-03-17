@@ -1,5 +1,6 @@
 package com.hsf1002.sky.hindk;
 
+import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import com.hsf1002.sky.jni.DynamicLoad;
 import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
+import com.hsf1002.sky.jni.StringType;
 
 public class MainActivity extends AppCompatActivity {
 private static final String TAG = "skyMainActivity";
@@ -52,6 +54,10 @@ private static final String TAG = "skyMainActivity";
                     ", short+1: " + basicType.callNativeShort(sh) + ", long+1: " + basicType.callNativeLong(20) +
                     ", char+1: " + basicType.callNativeChar('A') + ", float+1: " + basicType.callNativeFloat(100) +
                     ", double+1: " + basicType.callNativeDouble(200) + ", !bool: " + basicType.callNativeBool(false));
+
+        StringType stringType = new StringType();
+        Log.d(TAG, "native-str: " + stringType.callNativeString("java string")); // native-str: this is C style string
+        Log.d(TAG, "string-size: " + stringType.stringMethod("java string"));    // string-size: 11
     }
 
 }

@@ -65,6 +65,32 @@ Java_com_hsf1002_sky_jni_BasicType_callNativeBool(JNIEnv *env, jobject thiz, jbo
     return bo;
 }
 
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_hsf1002_sky_jni_StringType_callNativeString(JNIEnv *env, jobject thiz, jstring str_) {
+    const char *str = env->GetStringUTFChars(str_, 0);
+    //LOGD("java string is %s", str);
+    env->ReleaseStringUTFChars(str_, str);
+
+    return env->NewStringUTF("this is C style string");
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_hsf1002_sky_jni_StringType_stringMethod(JNIEnv *env, jobject thiz, jstring str_) {
+    const char *str = env->GetStringUTFChars(str_, 0);
+    int len = env->GetStringLength(str_);
+    //LOGD("java string length is %d", len);
+
+    char buf[128];
+    env->GetStringUTFRegion(str_, 0, len - 1, buf); // 长度减1后拷贝到buf
+    //LOGD("java string is %s", buf);
+
+    env->ReleaseStringUTFChars(str_, str);
+
+    return len;
+}
+
 #ifdef __cplusplus
 }
 #endif
