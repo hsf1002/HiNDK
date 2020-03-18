@@ -91,6 +91,21 @@ Java_com_hsf1002_sky_jni_StringType_stringMethod(JNIEnv *env, jobject thiz, jstr
     return len;
 }
 
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_hsf1002_sky_jni_RefType_callNativeStringArray(JNIEnv *env, jobject thiz,
+                                                       jobjectArray str_array) {
+    int len = env->GetArrayLength(str_array);
+    //LOGD("string array len is %d", len);
+
+    jstring first_str = static_cast<jstring>(env->GetObjectArrayElement(str_array, 1));
+    const char *str = env->GetStringUTFChars(first_str, 0);
+    //LOGD("first str of string array is %s", str);
+    env->ReleaseStringUTFChars(first_str, str);
+
+    return env->NewStringUTF(str);
+}
+
 #ifdef __cplusplus
 }
 #endif

@@ -12,6 +12,7 @@ import com.hsf1002.sky.jni.DynamicLoad;
 import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
+import com.hsf1002.sky.jni.RefType;
 import com.hsf1002.sky.jni.StringType;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,6 +59,10 @@ private static final String TAG = "skyMainActivity";
         StringType stringType = new StringType();
         Log.d(TAG, "native-str: " + stringType.callNativeString("java string")); // native-str: this is C style string
         Log.d(TAG, "string-size: " + stringType.stringMethod("java string"));    // string-size: 11
+
+        RefType refType = new RefType();
+        String[] strArray = {"Apple", "Banana", "Cux"};
+        Log.d(TAG, "refType: " + refType.callNativeStringArray(strArray));       // refType: Banana
     }
 
 }
