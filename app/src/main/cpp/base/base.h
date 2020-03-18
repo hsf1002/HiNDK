@@ -44,4 +44,32 @@
 //float[]	            jfloatArray
 //double[]	            jdoubleArray
 
+
+/********************** 类 ************************/
+//java    native
+//boolean    Z
+//byte       B
+//char       C
+//short      S
+//int        I
+//long       J
+//float      F
+//double     D
+/*
+//String     Ljava/lang/String;
+//Class      Ljava/lang/Class;
+//Throwable  Ljava/lang/Throwable;
+//int[]      [I
+//Object[]   [Ljava/lang/Object;
+
+当一个函数不需要返回参数类型时，就使用”V”来表示
+()Ljava/lang/String;     String f();
+(ILjava/lang/Class;)J    long f(int i, Class c);
+([B)V                    void String(byte[] bytes);
+
+()V                      void Func();
+(II)V                    void Func(int, int);
+(Ljava/lang/String;Ljava/lang/String;)I  int Func(String,String)
+*/
+
 #endif //HINDK_BASE_H

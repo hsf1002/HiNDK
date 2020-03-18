@@ -106,6 +106,81 @@ Java_com_hsf1002_sky_jni_RefType_callNativeStringArray(JNIEnv *env, jobject thiz
     return env->NewStringUTF(str);
 }
 
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_AccessField_accessInstanceField(JNIEnv *env, jobject thiz,
+                                                         jobject animal) {
+    // 获取类名
+    jclass cls = env->GetObjectClass(animal);
+    // 根据名称+类型获取成员
+    jfieldID fid = env->GetFieldID(cls, "name", "Ljava/lang/String;");
+    jstring str = env->NewStringUTF("gorilla");
+    // 修改成员
+    env->SetObjectField(animal, fid, str);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_AccessField_accessStaticField(JNIEnv *env, jobject thiz, jobject animal) {
+    // 获取类名
+    jclass cls = env->GetObjectClass(animal);
+    // 根据名称+类型获取静态成员
+    jfieldID fid = env->GetStaticFieldID(cls, "num", "I");
+    int num = env->GetStaticIntField(cls, fid);
+    // 修改静态成员
+    env->SetStaticIntField(cls, fid, ++num);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_AccessField_accessStaticInstanceField(JNIEnv *env, jclass clazz) {
+    // 根据名称+类型获取静态成员
+    jfieldID fid = env->GetStaticFieldID(clazz, "number", "I");
+    int num = env->GetStaticIntField(clazz, fid);
+    // 修改静态成员
+    env->SetStaticIntField(clazz, fid, ++num);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_AccessMethod_accessInstanceMethod(JNIEnv *env, jobject thiz,
+                                                           jobject animal) {
+    // 获取类名
+    jclass cls = env->GetObjectClass(animal);
+    // 根据函数名+参数类型返回类型获取成员函数ID
+    jmethodID mid = env->GetMethodID(cls, "callInstanceMethod", "(I)V");
+    // 调用普通成员函数，2是所传参数
+    env->CallVoidMethod(animal, mid, 64);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_AccessMethod_accessStaticMethod(JNIEnv *env, jobject thiz,
+                                                         jobject animal) {
+    // 获取类名
+    jclass cls = env->GetObjectClass(animal);
+    // 根据函数名+参数类型返回类型获取成员函数ID
+    jmethodID mid = env->GetStaticMethodID(cls, "callStaticMethod", "(Ljava/lang/String;)Ljava/lang/String;");
+    jstring str = env->NewStringUTF("lion");
+    // 调用静态成员函数，str是所传参数
+    env->CallStaticObjectMethod(cls, mid, str);
+
+    // 根据函数名+参数类型返回类型获取成员函数ID
+    mid = env->GetStaticMethodID(cls, "callStaticMethod", "([Ljava/lang/String;I)Ljava/lang/String;");
+    jclass strClass = env->FindClass("java/lang/String");
+    int size = 3;
+    // jni中没有StringArray
+    jobjectArray strArray = env->NewObjectArray(size, strClass, nullptr);
+    jstring strItem = env->NewStringUTF("duck");
+    env->SetObjectArrayElement(strArray, 0, strItem);
+    strItem = env->NewStringUTF("cow");
+    env->SetObjectArrayElement(strArray, 1, strItem);
+    strItem = env->NewStringUTF("horse");
+    env->SetObjectArrayElement(strArray, 2, strItem);
+    // 调用静态成员函数，str是所传参数
+    env->CallStaticObjectMethod(cls, mid, strArray, size);
+}
 #ifdef __cplusplus
 }
 #endif

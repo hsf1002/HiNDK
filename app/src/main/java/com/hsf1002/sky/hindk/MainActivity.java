@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.hsf1002.sky.Animal;
+import com.hsf1002.sky.jni.AccessField;
+import com.hsf1002.sky.jni.AccessMethod;
 import com.hsf1002.sky.jni.BasicType;
 import com.hsf1002.sky.jni.DynamicLoad;
 import com.hsf1002.sky.Hello;
@@ -63,6 +66,26 @@ private static final String TAG = "skyMainActivity";
         RefType refType = new RefType();
         String[] strArray = {"Apple", "Banana", "Cux"};
         Log.d(TAG, "refType: " + refType.callNativeStringArray(strArray));       // refType: Banana
+
+        final Animal animal = new Animal("pig");
+        Log.d(TAG, "animal name: " + animal.getName() + ", num: " + Animal.getNum()); // animal name: pig, num: 0
+        AccessField accessField = new AccessField();
+        accessField.accessInstanceField(animal);
+        accessField.accessStaticField(animal);
+        Log.d(TAG, "animal name: " + animal.getName()+ ", num: " + Animal.getNum());  // animal name: gorilla, num: 1
+        Log.d(TAG, "AccessField number: " + AccessField.number);    // AccessField number: 0
+        AccessField.accessStaticInstanceField();
+        Log.d(TAG, "AccessField number: " + AccessField.number);    // AccessField number: 1
+
+        AccessMethod accessMethod = new AccessMethod();
+        accessMethod.accessInstanceMethod(animal);  // callInstanceMethod num: 64
+        accessMethod.accessStaticMethod(animal);    // callStaticMethod str: lion
+                                                    // callStaticMethod str in array is: duck
+                                                    // callStaticMethod str in array is: cow
+                                                    // callStaticMethod str in array is: horse
+                                                    // callStaticMethod num: 3
+
+
     }
 
 }
