@@ -8,6 +8,10 @@
 #include <android/log.h>
 #include <jni.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define  LOG_TAG "sky"
 
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG, __VA_ARGS__)
@@ -72,4 +76,11 @@
 (Ljava/lang/String;Ljava/lang/String;)I  int Func(String,String)
 */
 
+void set_JVM(JavaVM *jvm);
+
+JavaVM *get_JVM();
+
+#ifdef __cplusplus
+}
+#endif
 #endif //HINDK_BASE_H

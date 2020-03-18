@@ -48,7 +48,8 @@ add_library(
 add_library(
         dynamic-lib
         SHARED
-        jni/dynamic-lib.cpp)
+        jni/dynamic-lib.cpp
+        base/jvm.cpp)
 
 add_library(
         native-lib

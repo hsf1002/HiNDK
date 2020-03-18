@@ -181,6 +181,7 @@ Java_com_hsf1002_sky_jni_AccessMethod_accessStaticMethod(JNIEnv *env, jobject th
     // 调用静态成员函数，str是所传参数
     env->CallStaticObjectMethod(cls, mid, strArray, size);
 }
+
 #ifdef __cplusplus
 }
 #endif

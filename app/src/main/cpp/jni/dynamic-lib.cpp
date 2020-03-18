@@ -4,9 +4,18 @@
 
 #include <base.h>
 #include <jni.h>
+#include <pthread.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define  CLASS_NAME "com/hsf1002/sky/jni/DynamicLoad"
 
+jobject threadObject;
+jclass threadClass;
+jmethodID threadMethod;
 
 /**
  * 对应于 getNativeString，函数名字没必要一样
@@ -80,6 +89,8 @@ JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
         return JNI_FALSE;
     }
 
+    set_JVM(vm);
+
     // 动态注册
     register_native_methods(env, CLASS_NAME, g_methods, 2);
 
@@ -87,3 +98,45 @@ JNIEXPORT int JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
 
     return JNI_VERSION_1_6;
 }
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_InvokeMethod_nativeCallback(JNIEnv *env, jobject thiz, jobject cb) {
+    // 获取类名
+    jclass cls = env->GetObjectClass(cb);
+    // 根据函数名+参数类型返回类型获取回调函数ID
+    jmethodID mid = env->GetMethodID(cls, "callback", "()V");
+    // 调用回调函数
+    env->CallVoidMethod(cb, mid);
+}
+
+
+void *thread_cb(void *)
+{
+    JavaVM *gvm = get_JVM();
+    JNIEnv *env = nullptr;
+
+    if (0 == gvm->AttachCurrentThread(&env, nullptr))
+    {
+        env->CallVoidMethod(threadObject, threadMethod);
+        gvm->DetachCurrentThread();
+    }
+
+    return nullptr;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_InvokeMethod_nativeThreadCallback(JNIEnv *env, jobject thiz, jobject cb) {
+    threadObject = env->NewGlobalRef(cb);
+    threadClass = env->GetObjectClass(cb);
+    threadMethod = env->GetMethodID(threadClass, "callback", "()V");
+
+    pthread_t handle;
+    pthread_create(&handle, nullptr, thread_cb, nullptr);
+}
+
+#ifdef __cplusplus
+}
+#endif

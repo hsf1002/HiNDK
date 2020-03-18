@@ -15,6 +15,9 @@ import com.hsf1002.sky.jni.DynamicLoad;
 import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
 import com.hsf1002.sky.Teacher;
+import com.hsf1002.sky.jni.IMethodCB;
+import com.hsf1002.sky.jni.IThreadCB;
+import com.hsf1002.sky.jni.InvokeMethod;
 import com.hsf1002.sky.jni.RefType;
 import com.hsf1002.sky.jni.StringType;
 
@@ -85,7 +88,19 @@ private static final String TAG = "skyMainActivity";
                                                     // callStaticMethod str in array is: horse
                                                     // callStaticMethod num: 3
 
-
+        InvokeMethod invokeMethod = new InvokeMethod();
+        invokeMethod.nativeCallback(new IMethodCB() {
+            @Override
+            public void callback() {
+                Log.d(TAG, "callback: thread-name:" + Thread.currentThread().getName());       // callback: thread-name:main
+            }
+        });
+        invokeMethod.nativeThreadCallback(new IThreadCB() {
+            @Override
+            public void callback() {
+                Log.d(TAG, "thread callback: thread-name: " + Thread.currentThread().getName());// thread callback: thread-name: Thread-2
+            }
+        });
     }
 
 }
