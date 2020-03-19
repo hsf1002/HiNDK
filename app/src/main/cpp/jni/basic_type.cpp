@@ -182,6 +182,35 @@ Java_com_hsf1002_sky_jni_AccessMethod_accessStaticMethod(JNIEnv *env, jobject th
     env->CallStaticObjectMethod(cls, mid, strArray, size);
 }
 
+extern "C"
+JNIEXPORT jobject JNICALL
+Java_com_hsf1002_sky_jni_ConstructorClass_invokeAnimalConstructors(JNIEnv *env, jobject thiz) {
+    // 获取类名
+    jclass cls = env->FindClass("com/hsf1002/sky/Animal");
+    // 根据函数名+参数类型返回类型获取构造函数ID，名称直接传init
+    jmethodID mid = env->GetMethodID(cls, "<init>", "(Ljava/lang/String;)V");
+    jstring str = env->NewStringUTF("tiger");
+    // 构造一个新的对象
+    jobject animal = env->NewObject(cls, mid, str);
+
+    return animal;
+}
+
+extern "C"
+JNIEXPORT jobject JNICALL
+Java_com_hsf1002_sky_jni_ConstructorClass_allocObjectConstructor(JNIEnv *env, jobject thiz) {
+    // 获取类名
+    jclass cls = env->FindClass("com/hsf1002/sky/Animal");
+    // 根据函数名+参数类型返回类型获取构造函数ID，名称直接传init
+    jmethodID mid = env->GetMethodID(cls, "<init>", "(Ljava/lang/String;)V");
+    jstring str = env->NewStringUTF("elephant");
+    // 构造一个新的对象
+    jobject animal = env->AllocObject(cls);
+    env->CallNonvirtualVoidMethod(animal, cls, mid, str);
+
+    return animal;
+}
+
 #ifdef __cplusplus
 }
 #endif

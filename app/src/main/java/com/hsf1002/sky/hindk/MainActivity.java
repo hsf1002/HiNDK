@@ -11,6 +11,7 @@ import com.hsf1002.sky.Animal;
 import com.hsf1002.sky.jni.AccessField;
 import com.hsf1002.sky.jni.AccessMethod;
 import com.hsf1002.sky.jni.BasicType;
+import com.hsf1002.sky.jni.ConstructorClass;
 import com.hsf1002.sky.jni.DynamicLoad;
 import com.hsf1002.sky.Hello;
 import com.hsf1002.sky.Person;
@@ -101,6 +102,10 @@ private static final String TAG = "skyMainActivity";
                 Log.d(TAG, "thread callback: thread-name: " + Thread.currentThread().getName());// thread callback: thread-name: Thread-2
             }
         });
+
+        ConstructorClass constructorClass = new ConstructorClass();
+        Log.d(TAG, "invokeAnimalConstructors: " + constructorClass.invokeAnimalConstructors().getName()); // invokeAnimalConstructors: tiger
+        Log.d(TAG, "allocObjectConstructor: " + constructorClass.allocObjectConstructor().getName());     // allocObjectConstructor: elephant
     }
 
 }
