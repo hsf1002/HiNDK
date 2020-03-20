@@ -211,6 +211,77 @@ Java_com_hsf1002_sky_jni_ConstructorClass_allocObjectConstructor(JNIEnv *env, jo
     return animal;
 }
 
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_hsf1002_sky_jni_Reference_useLocalReference(JNIEnv *env, jobject thiz) {
+    // 获取类名，局部引用，函数返回自动销毁
+    jclass local_ref = env->FindClass("java/lang/String");
+
+    // 如果局部引用过多，则需手动销毁
+//    for (int i=0; i<1024; i++)
+//    {
+//        jclass cls = env->FindClass("java/lang/String");
+//        env->DeleteLocalRef(cls);
+//    }
+    // 根据函数名+参数类型返回类型获取构造函数ID，名称直接传init
+    jmethodID mid = env->GetMethodID(local_ref, "<init>", "(Ljava/lang/String;)V");
+    jstring str = env->NewStringUTF("local ref");
+    // 构造一个新的对象
+    return static_cast<jstring>(env->NewObject(local_ref, mid, str));
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_hsf1002_sky_jni_Reference_useGlobalReference(JNIEnv *env, jobject thiz) {
+    static jclass global_ref = nullptr;
+
+    // 第一次新建一个
+    if (nullptr == global_ref)
+    {
+        jclass cls = env->FindClass("java/lang/String");
+        global_ref = static_cast<jclass>(env->NewGlobalRef(cls));
+        env->DeleteLocalRef(cls);
+        // 不需要的时候手动释放
+        //env->DeleteGlobalRef(global_ref);
+    }
+    else{
+        // 以后直接返回
+    }
+    jmethodID mid = env->GetMethodID(global_ref, "<init>", "(Ljava/lang/String;)V");
+    jstring str = env->NewStringUTF("global ref");
+    // 构造一个新的对象
+    return static_cast<jstring>(env->NewObject(global_ref, mid, str));
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_Reference_useWeakReference(JNIEnv *env, jobject thiz) {
+    static jclass weak_ref = nullptr;
+
+    // 第一次新建一个
+    if (nullptr == weak_ref)
+    {
+        jclass cls = env->FindClass("java/lang/String");
+        weak_ref = static_cast<jclass>(env->NewWeakGlobalRef(cls));
+        env->DeleteLocalRef(cls);
+    }
+    else{
+        // 以后直接返回
+    }
+    jmethodID mid = env->GetMethodID(weak_ref, "<init>", "(Ljava/lang/String;)V");
+    // 判断弱引用是否被释放
+    jboolean is_gc = env->IsSameObject(weak_ref, nullptr);
+
+    if (is_gc)
+    {
+        // do something
+    } else
+    {
+        // do nothing
+    }
+}
+
 #ifdef __cplusplus
 }
 #endif

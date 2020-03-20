@@ -20,6 +20,7 @@ import com.hsf1002.sky.jni.IMethodCB;
 import com.hsf1002.sky.jni.IThreadCB;
 import com.hsf1002.sky.jni.InvokeMethod;
 import com.hsf1002.sky.jni.RefType;
+import com.hsf1002.sky.jni.Reference;
 import com.hsf1002.sky.jni.StringType;
 
 public class MainActivity extends AppCompatActivity {
@@ -106,6 +107,11 @@ private static final String TAG = "skyMainActivity";
         ConstructorClass constructorClass = new ConstructorClass();
         Log.d(TAG, "invokeAnimalConstructors: " + constructorClass.invokeAnimalConstructors().getName()); // invokeAnimalConstructors: tiger
         Log.d(TAG, "allocObjectConstructor: " + constructorClass.allocObjectConstructor().getName());     // allocObjectConstructor: elephant
+
+        Reference reference = new Reference();
+        Log.d(TAG, "useLocalReference: " + reference.useLocalReference());      // useLocalReference: local ref
+        Log.d(TAG, "useGlobalReference: " + reference.useGlobalReference());    // useGlobalReference: global ref
+        //Log.d(TAG, "useWeakReference: " + reference.useWeakReference());
     }
 
 }
