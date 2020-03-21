@@ -282,6 +282,38 @@ Java_com_hsf1002_sky_jni_Reference_useWeakReference(JNIEnv *env, jobject thiz) {
     }
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_JNIException_nativeThrowException(JNIEnv *env, jobject thiz) {
+    jclass cls = env->FindClass("java/lang/IllegalArgumentException");
+    env->ThrowNew(cls, "jni throw exception");
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_JNIException_nativeInvokeJavaException(JNIEnv *env, jobject thiz) {
+    jclass cls = env->FindClass("com/hsf1002/sky/jni/JNIException");
+    jmethodID mid = env->GetMethodID(cls, "wrongDivide", "()I");
+    // 获取其无参无返回值的构造函数
+    jmethodID mid2 = env->GetMethodID(cls, "<init>", "()V");
+    jobject obj = env->NewObject(cls, mid2);
+    // 调用wrongDivide方法
+    env->CallIntMethod(obj, mid);
+
+    jthrowable exc = env->ExceptionOccurred();
+    // 出现异常，打印警告信息，而不至于让程序奔溃，  W/System.err: java.lang.ArithmeticException: divide by zero
+    if (exc)
+    {
+        // 打印信息
+        env->ExceptionDescribe();
+        // 清除异常
+        env->ExceptionClear();
+
+        Java_com_hsf1002_sky_jni_JNIException_nativeThrowException(env, thiz);
+    }
+}
+
+
 #ifdef __cplusplus
 }
 #endif

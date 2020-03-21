@@ -19,6 +19,7 @@ import com.hsf1002.sky.Teacher;
 import com.hsf1002.sky.jni.IMethodCB;
 import com.hsf1002.sky.jni.IThreadCB;
 import com.hsf1002.sky.jni.InvokeMethod;
+import com.hsf1002.sky.jni.JNIException;
 import com.hsf1002.sky.jni.RefType;
 import com.hsf1002.sky.jni.Reference;
 import com.hsf1002.sky.jni.StringType;
@@ -112,6 +113,16 @@ private static final String TAG = "skyMainActivity";
         Log.d(TAG, "useLocalReference: " + reference.useLocalReference());      // useLocalReference: local ref
         Log.d(TAG, "useGlobalReference: " + reference.useGlobalReference());    // useGlobalReference: global ref
         //Log.d(TAG, "useWeakReference: " + reference.useWeakReference());
-    }
 
+        final JNIException exception = new JNIException();
+        try
+        {
+            exception.nativeInvokeJavaException();
+        }
+        catch (IllegalArgumentException e)
+        {
+            Log.d(TAG, "JNIException: " + e.getMessage());  // JNIException: jni throw exception
+        }
+
+    }
 }
