@@ -20,6 +20,7 @@ import com.hsf1002.sky.jni.IMethodCB;
 import com.hsf1002.sky.jni.IThreadCB;
 import com.hsf1002.sky.jni.InvokeMethod;
 import com.hsf1002.sky.jni.JNIException;
+import com.hsf1002.sky.jni.JNIThread;
 import com.hsf1002.sky.jni.RefType;
 import com.hsf1002.sky.jni.Reference;
 import com.hsf1002.sky.jni.StringType;
@@ -124,5 +125,7 @@ private static final String TAG = "skyMainActivity";
             Log.d(TAG, "JNIException: " + e.getMessage());  // JNIException: jni throw exception
         }
 
+        JNIThread thread = new JNIThread();
+        thread.createNativeThread();
     }
 }

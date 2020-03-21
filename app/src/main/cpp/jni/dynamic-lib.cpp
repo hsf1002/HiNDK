@@ -5,6 +5,9 @@
 #include <base.h>
 #include <jni.h>
 #include <pthread.h>
+#include <cstring>
+#include <cstdio>
+#include <unistd.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -135,6 +138,44 @@ Java_com_hsf1002_sky_jni_InvokeMethod_nativeThreadCallback(JNIEnv *env, jobject 
 
     pthread_t handle;
     pthread_create(&handle, nullptr, thread_cb, nullptr);
+}
+
+struct Person
+{
+    char name[32];
+    int age;
+};
+
+void *handle_thr(void *arg)
+{
+    Person *p = static_cast<Person *>(arg);
+    printf("handle_thr name = %s\n", p->name);
+    printf("handle_thr age = %d\n", p->age);
+
+    sleep(3);
+    return reinterpret_cast<void *>(p->age);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_JNIThread_createNativeThread(JNIEnv *env, jobject thiz) {
+    pthread_t thr;
+    int ret;
+    struct Person person;
+    strcpy(person.name, "sky");
+    person.age = 24;
+
+    if ((ret = pthread_create(&thr, nullptr, handle_thr, &person)) == 0)
+    {
+        // success;
+    } else
+    {
+        // failed;
+    }
+
+    void *status = nullptr;
+    pthread_join(thr, &status);
+    printf("jni thread exit status = %d\n", status);
 }
 
 #ifdef __cplusplus
