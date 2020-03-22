@@ -178,6 +178,52 @@ Java_com_hsf1002_sky_jni_JNIThread_createNativeThread(JNIEnv *env, jobject thiz)
     printf("jni thread exit status = %d\n", status);
 }
 
+pthread_t wait_thr;
+pthread_t notify_thr;
+pthread_mutex_t mutex;
+pthread_cond_t cond;
+bool flag = false;
+
+void *handle_wait_thr(void *)
+{
+    pthread_mutex_lock(&mutex);
+
+    while (!flag)
+    {
+        pthread_cond_wait(&cond, &mutex);
+    }
+
+    pthread_mutex_unlock(&mutex);
+
+    return nullptr;
+}
+
+void *handle_notify_thr(void *)
+{
+    pthread_mutex_lock(&mutex);
+    flag = true;
+    pthread_mutex_unlock(&mutex);
+
+    pthread_cond_signal(&cond);
+
+    return nullptr;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_JNIThread_waitNativeThread(JNIEnv *env, jobject thiz) {
+    pthread_mutex_init(&mutex, nullptr);
+    pthread_cond_init(&cond, nullptr);
+
+    pthread_create(&wait_thr, nullptr, handle_wait_thr, nullptr);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_hsf1002_sky_jni_JNIThread_notifyNativeThread(JNIEnv *env, jobject thiz) {
+    pthread_create(&notify_thr, nullptr, handle_notify_thr, nullptr);
+}
+
 #ifdef __cplusplus
 }
 #endif
